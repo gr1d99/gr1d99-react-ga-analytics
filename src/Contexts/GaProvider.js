@@ -1,24 +1,37 @@
 import React from 'react';
 import ReactGA from 'react-ga';
-import { useLocation } from 'react-router-dom'
 
 const GaContext = React.createContext({})
 
-const GaProvider = ({ history, children }) => {
+const RouteWatch = ({ history }) => {
+    const { key } = history.location;
+
+
+    return null;
+}
+
+const useGa = () => {
+    return React.useContext(GaContext);
+}
+
+export { useGa }
+
+const GaProvider = ({ children, history }) => {
     React.useEffect(() => {
         ReactGA.initialize('UA-194778071-1');
     }, [])
 
     React.useEffect(() => {
         history.listen(location => {
-            console.log({location})
+            const { pathname, search } = location;
+
+            ReactGA.pageview(pathname + search)
         })
+
     }, [history])
 
-    console.log({ history})
-
     return (
-        <GaContext.Provider value={{}}>
+        <GaContext.Provider value={{ RouteWatch }}>
             {children}
         </GaContext.Provider>
     )
