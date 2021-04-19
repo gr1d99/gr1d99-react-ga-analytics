@@ -3,10 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import GaProvider from "./Contexts/GaProvider";
+import { createBrowserHistory } from 'history';
+import { Router } from 'react-router-dom';
+
+const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Router history={history}>
+          <GaProvider history={history}>
+              <App />
+          </GaProvider>
+      </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
